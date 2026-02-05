@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Display</title>
+    <link rel="stylesheet" href="/static/css/display.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script>
+        // Inject initial data
+        window.INITIAL_PHOTOS = {{ approved_photos | tojson }};
+    </script>
+    <script src="/static/js/display.js" defer></script>
+</head>
+
+<body>
+    <div id="slideshow-container">
+        {% if approved_photos %}
+        <!-- JS will take over, but could SSR first image if needed -->
+        {% else %}
+        <div class="placeholder">Waiting for photos...</div>
+        {% endif %}
+    </div>
+
+    <div id="danmu-layer">
+        <!-- Flying text goes here -->
+    </div>
+
+    <div id="qr-overlay">
+        <div id="qrcode"></div>
+        <p>Join & Share!</p>
+    </div>
+</body>
+
+</html>

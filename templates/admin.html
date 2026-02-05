@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="/static/js/admin.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <div class="controls">
+            <button id="clear-btn" class="btn-danger">EMERGENCY TOP (Clear Danmu)</button>
+        </div>
+    </header>
+
+    <!-- Settings Section -->
+    <div class="settings-panel">
+        <div class="settings-group">
+            <label>Guest URL (Ngrok / Public IP)</label>
+            <input type="text" id="guest-url-input" placeholder="e.g. https://xyz.ngrok-free.app"
+                value="{{ config.guest_url }}">
+        </div>
+        <div class="settings-group">
+            <label class="toggle-label">
+                <input type="checkbox" id="auto-approve-toggle" {% if config.auto_approve %}checked{% endif %}>
+                Auto-Approve Everything
+            </label>
+        </div>
+        <div class="settings-group">
+            <label class="toggle-label">
+                <input type="checkbox" id="show-qr-toggle" {% if config.show_qr %}checked{% endif %}>
+                Show QR on Screen
+            </label>
+        </div>
+        <button onclick="updateConfig()" class="btn-approve">Save Settings</button>
+        <div id="qr-preview" style="margin-left:auto;"></div>
+    </div>
+
+    <!-- Message Queue Section -->
+    <h2 class="section-title">Pending Messages</h2>
+    <div id="message-queue" class="message-queue">
+        <!-- Messages appear here -->
+        <div id="msg-empty" class="empty-state" style="padding: 1rem;">No pending messages.</div>
+    </div>
+
+    <h2 class="section-title">Pending Photos</h2>
+    <main id="photo-grid">
+        <div id="empty-state" class="empty-state" style="display: none;">
+            No pending photos.
+        </div>
+
+        {% for filename in pending_photos %}
+        <div class="photo-card" id="card-{{ filename }}">
+            <img src="/uploads/temp/{{ filename }}" alt="Submission">
+            <div class="card-actions">
+                <button class="btn-approve" onclick="approvePhoto('{{ filename }}')">Approve</button>
+                <button class="btn-delete" onclick="deletePhoto('{{ filename }}')">Delete</button>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+</body>
+
+</html>

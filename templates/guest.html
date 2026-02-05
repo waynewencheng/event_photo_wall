@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Guest Portal</title>
+    <link rel="stylesheet" href="/static/css/guest.css">
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+    <script src="/static/js/guest.js" defer></script>
+</head>
+<body>
+    <h1>Welcome to the Event!</h1>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-target="danmu-tab">Send Message</div>
+            <div class="tab" data-target="photo-tab">Upload Photo</div>
+        </div>
+
+        <div id="danmu-tab" class="tab-content active">
+            <form id="danmu-form">
+                <div class="form-group">
+                    <label for="danmu-input">Your Message</label>
+                    <input type="text" id="danmu-input" maxlength="50" placeholder="Say something nice..." required>
+                </div>
+                <button type="submit">Send Message</button>
+                <div id="danmu-feedback" class="feedback"></div>
+            </form>
+        </div>
+
+        <div id="photo-tab" class="tab-content">
+            <form id="photo-form">
+                <div class="form-group">
+                    <label for="photo-input">Share a Photo</label>
+                    <input type="file" id="photo-input" accept="image/*" required>
+                </div>
+                <button type="submit" id="photo-btn">Send Photo</button>
+                <div id="photo-feedback" class="feedback"></div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
